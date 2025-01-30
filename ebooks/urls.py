@@ -2,13 +2,9 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.home, name='home'),
-from django.urls import path
-from . import views
+    path('', views.home, name='home'),  # Home page where books are listed
+    path('update_book/', views.update_book, name='update_book'),  # URL to handle book update
 
-urlpatterns = [
-    path('', views.ebook_list, name='ebook_list'),
-    path('create/', views.create_ebook, name='create_ebook'),
-    path('update/<int:pk>/', views.update_ebook, name='update_ebook'),
-    path('delete/<int:pk>/', views.delete_ebook, name='delete_ebook'),
+    path('delete_book/', views.delete_book, name='delete_book'),  # URL to handle book deletion
+
 ]

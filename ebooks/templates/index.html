@@ -9,6 +9,26 @@
 <body>
 <h1> Welcome to UoS Bookshop</h1>
 <img src="{% static 'images/ncvbook2.jpg'%}">
+
+<!-- Create Book Form -->
+<h2>Create a New Book</h2>
+<form method="POST" action="{% url 'create_book' %}">
+    {% csrf_token %}
+    <label for="title">Title:</label>
+    <input type="text" name="title" required><br>
+    <label for="author">Author:</label>
+    <input type="text" name="author" required><br>
+    <label for="genre">Genre:</label>
+    <input type="text" name="genre" required><br>
+    <label for="price">Price:</label>
+    <input type="number" name="price" step="0.01" required><br>
+    <label for="stock">Stock:</label>
+    <input type="number" name="stock" required><br>
+    <button type="submit">Create Book</button>
+</form>
+
+<!-- Book Listing -->
+<h2>Book List</h2>
 <table border="1">
     <tr>
         <th>Title</th>
@@ -16,17 +36,65 @@
         <th>Genre</th>
         <th>Price</th>
         <th>Stock</th>
+        <th>Actions</th>
     </tr>
-{% for bk in books %}
-    <tr><td>{{bk.title}}</td>
-        <td>{{bk.author}}</td>
-        <td>{{bk.genre}}</td>
-        <td>{{bk.price}}</td>
-        <td>{{bk.stock}}   </td>
-        <td><button name="UPDATE">UPDATE</button></td>
-        <td><button name="DEL">DELETE</button></td>
-        </tr>
-{% endfor %}
+    {% for bk in books %}
+    <tr>
+        <td>{{ bk.title }}</td>
+        <td>{{ bk.author }}</td>
+        <td>{{ bk.genre }}</td>
+        <td>{{ bk.price }}</td>
+        <td>{{ bk.stock }}</td>
+        <td>
+            <!-- Update Form -->
+            <button onclick="openUpdateForm({{ bk.id }}, '{{ bk.title }}', '{{ bk.author }}', '{{ bk.genre }}', '{{ bk.price }}', '{{ bk.stock }}')">UPDATE</button>
+
+            <!-- Delete Form -->
+            <form method="POST" action="{% url 'delete_book' %}" style="display:inline;">
+                {% csrf_token %}
+                <input type="hidden" name="book_id" value="{{ bk.id }}">
+                <button type="submit">DELETE</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
 </table>
+
+<!-- Update Form Modal -->
+<div id="updateForm" style="display: none;">
+    <form method="POST" action="{% url 'update_book' %}">
+        {% csrf_token %}
+        <input type="hidden" name="book_id" id="book_id">
+        <label for="title">Title:</label>
+        <input type="text" name="title" id="title"><br>
+        <label for="author">Author:</label>
+        <input type="text" name="author" id="author"><br>
+        <label for="genre">Genre:</label>
+        <input type="text" name="genre" id="genre"><br>
+        <label for="price">Price:</label>
+        <input type="text" name="price" id="price"><br>
+        <label for="stock">Stock:</label>
+        <input type="text" name="stock" id="stock"><br>
+        <button type="submit">Save Changes</button>
+        <button type="button" onclick="closeUpdateForm()">Cancel</button>
+    </form>
+</div>
+<h1>Greetings</h1>
+<script>
+function openUpdateForm(id, title, author, genre, price, stock) {
+    document.getElementById("book_id").value = id;
+    document.getElementById("title").value = title;
+    document.getElementById("author").value = author;
+    document.getElementById("genre").value = genre;
+    document.getElementById("price").value = price;
+    document.getElementById("stock").value = stock;
+    document.getElementById("updateForm").style.display = "block";
+}
+
+function closeUpdateForm() {
+    document.getElementById("updateForm").style.display = "none";
+}
+</script>
+
 </body>
 </html>
