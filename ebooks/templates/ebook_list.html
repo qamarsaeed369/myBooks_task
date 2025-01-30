@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<h1>Ebooks</h1>
+<a href="{% url 'create_ebook' %}">Add New Ebook</a>
+<ul>
+    {% for ebook in ebooks %}
+        <li>{{ ebook.title }} by {{ ebook.author }}
+            <a href="{% url 'update_ebook' ebook.pk %}">Edit</a>
+            <a href="{% url 'delete_ebook' ebook.pk %}">Delete</a>
+        </li>
+    {% endfor %}
+</ul>
+<body>
+
+</body>
+</html>

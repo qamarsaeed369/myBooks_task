@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<h1>Delete Ebook</h1>
+<p>Are you sure you want to delete "{{ ebook.title }}"?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Yes, Delete</button>
+</form>
+
+<body>
+
+</body>
+</html>
